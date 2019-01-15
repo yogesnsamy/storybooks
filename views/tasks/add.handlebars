@@ -1,0 +1,58 @@
+<h1>Add Task</h1>
+<div class="row">
+  <form action="/tasks" method="post" class="col s12">
+    <div class="row">
+      <div class="input-field">
+        <input type="text" name="day">
+        <label for="day">Day</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" name="date">
+        <label for="date">Date</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <p>
+        <input type="checkbox" name="coffee" id="filled-in-box">
+        <label for="filled-in-box">Coffee?</label>
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" name="breakfast">
+        <label for="breakfast">Made breakfast?</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" name="lunch">
+        <label for="lunch">Made lunch?</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <h5>Task(s)</h5>
+        <textarea name="tasks"></textarea>
+      </div>
+    </div>
+
+    <textarea name="editor1" id="editor1" rows="10" cols="80">
+                This is my textarea to be replaced with CKEditor.
+            </textarea>
+
+
+    <input type="submit" value="Save" class="btn">
+  </form>
+</div>
+<script>
+  // Replace the <textarea id="editor1"> with a CKEditor
+  // instance, using default configuration.
+  CKEDITOR.replace('editor1');
+</script>

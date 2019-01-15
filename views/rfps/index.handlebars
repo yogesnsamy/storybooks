@@ -1,0 +1,23 @@
+<h1>Search Result - {{title}}</h1>
+{{#each data.passages}}
+<p class="story-text">{{answer}}</p>
+<div class="col s12 m4">
+  <div class="card">
+    <div class="card-image">
+      <a href="/stories/edit/{{id}}" class="btn-floating halfway-fab red">
+        <i class="fa fa-pencil"></i>
+      </a>
+    </div>
+    <div class="card-content center-align">
+      <h5>{{passage_text}}</h5>
+      <p class="story-text">{{answer}}</p>
+      <br>
+    </div>
+    <div class="card-action center-align">
+      <div class="btn grey" href="/stories/show/{{id}}">Read More</div>
+    </div>
+  </div>
+</div>
+{{else}}
+<p>No answers found</p>
+{{/each}}

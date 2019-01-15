@@ -1,11 +1,14 @@
 const express = require('express');
+const path = require('path');
 const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 
 // Load User Model
 require('./models/User');
+require('./models/Story');
 
 // Passport Config
 require('./config/passport')(passport);
@@ -13,9 +16,14 @@ require('./config/passport')(passport);
 // Load Routes
 const index = require('./routes/index');
 const auth = require('./routes/auth');
+const stories = require('./routes/stories');
+const rfps = require('./routes/rfps');
+const tasks = require('./routes/tasks');
 
 // Load Keys
 const keys = require('./config/keys');
+// Handlebars Helpers
+const { truncate, stripTags } = require('./helpers/hbs');
 
 // Map global promises
 mongoose.Promise = global.Promise;
@@ -31,12 +39,32 @@ mongoose
   .catch(err => console.log(err));
 
 const app = express();
+
+//to access form values - can use req.body.title etc
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// app.engine(
+//   'handlebars',
+//   exphbs({
+//     helpers: {
+//       truncate: truncate,
+//       stripTags: stripTags
+//     },
+//     defaultLayout: 'main'
+//   })
+// );
 app.engine(
   'handlebars',
   exphbs({
+    helpers: {
+      truncate: truncate,
+      stripTags: stripTags
+    },
     defaultLayout: 'main'
   })
 );
+
 app.set('view engine', 'handlebars');
 
 app.use(
@@ -57,9 +85,15 @@ app.use((req, res, next) => {
   next();
 });
 
+//connect to folder public so that we can use our custom css file
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Use Routes
 app.use('/', index);
 app.use('/auth', auth);
+app.use('/stories', stories);
+app.use('/rfps', rfps);
+app.use('/tasks', tasks);
 
 const port = process.env.PORT || 5000;
 
