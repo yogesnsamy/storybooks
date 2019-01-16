@@ -9,7 +9,7 @@ const discovery = new DiscoveryV1({
   url: watson.url
 });
 
-router.get('/', (req, res) => {
+router.get('/search', (req, res) => {
   res.render('rfps/search');
 });
 
@@ -29,9 +29,9 @@ router.post('/', (req, res) => {
     if (error) {
       next(error);
     } else {
-      console.log('go to rfp/index');
+      // console.log('go to rfp/index');
       // res.render('rfps/index', {
-      res.render('rfps/search', {
+      res.render('rfps/results', {
         title: query,
         question: query,
         data: data

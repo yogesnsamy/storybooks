@@ -37,15 +37,15 @@
       {
         plugins: 'wysiwygarea,toolbar,basicstyles,link'
       });
-    CKEDITOR.replace('tasks',
-      {
-        plugins: 'wysiwygarea,toolbar,basicstyles,link'
-      });
-    CKEDITOR.replace('editor1');
-
-    document.getElementById("myBtn").addEventListener("click", function () {
-      document.getElementById("demo").innerHTML = "Hello World";
-    });
+    document.getElementById("demo").addEventListener("click", myFunction);
+    function myFunction(str) {
+      const el = document.createElement('textarea');
+      el.value = str.replace(/<(?:.|\n)*?>/gm, '');
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
 
   </script>
 </body>
