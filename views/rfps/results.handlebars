@@ -1,16 +1,15 @@
 <div>
-  <h4><strong>{{title}}</strong></h4>
-  <p>{{data.matching_results}} matching documents found</p>
-  {{#each data.results}}
+  <h4><strong>You searched for <em>'{{title}}'</em></strong></h4>
+  {{#each discoveryResults}}
   <div class="row">
     <div class="col s12 m12">
       <div class="card blue-grey darken-1">
         <div class="card-content white-text">
-          <span class="card-title">{{{highlight.question}}}</span>
-          <p>{{{highlight.answer}}}</p>
+          <span class="card-title">{{{question}}}</span>
+          <p>{{{body}}}</p>
         </div>
         <div class="card-action">
-          <a id="demo" onclick="myFunction('{{highlight.answer}}')">Copy answer</a>
+          <a id="demo" onclick="myFunction('{{body}}')">Copy answer</a>
         </div>
       </div>
     </div>

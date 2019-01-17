@@ -25,19 +25,79 @@ router.post('/', (req, res) => {
     highlight: watson.highlight
   };
 
-  discovery.query(params, (error, data) => {
-    if (error) {
-      next(error);
-    } else {
-      // console.log('go to rfp/index');
-      // res.render('rfps/index', {
-      res.render('rfps/results', {
-        title: query,
-        question: query,
-        data: data
-      });
+  //-----------------from sample
+  // discovery.query({environment_id: params.environment_id,
+  //   collection_id: params.collection_id,
+  //   query: req.body.question
+  // },
+  //----------------end of sample
+  discovery.query(
+    {
+      environment_id: params.environment_id,
+      collection_id: params.collection_id,
+      query: req.body.question
+    },
+    (error, data) => {
+      if (error) {
+        next(error);
+      } else {
+        var i = 0;
+        var discoveryResults = [];
+        while (data.results[i] && i < 5) {
+          let body = data.results[i].answer;
+          discoveryResults[i] = {
+            body: body,
+            bodySnippet: (body.length < 144
+              ? body
+              : body.substring(0, 144) + '...'
+            ).replace(/<\/?[a-zA-Z]+>/g, ''),
+            confidence: data.results[i].score,
+            id: data.results[i].id,
+            sourceUrl: data.results[i].sourceUrl,
+            title: data.results[i].title,
+            question: data.results[i].question
+          };
+          i++;
+        }
+        // console.log(data.session_token);
+        // console.log(data.results);
+        // var i = 0;
+        // var discoveryResults = [];
+        // while (data.results[i] && i < 3) {
+        //   console.log(data.results[i].id);
+        //   console.log(data.results[i].question);
+        //   console.log(data.results[i].answer);
+        //   i++;
+        // }
+        // console.log(data.results[1].question);
+
+        // var i = 0;
+        // var discoveryResults = [];
+        // while (data.results[i] && i < 3) {
+        //   // let body = data.results[i].contentHtml;
+        //   discoveryResults[i] = {
+        //     question: data.results[i].question,
+        //     // answerSnippet: (data.results[i].answer.length < 144
+        //     //   ? data.results[i].answer
+        //     //   : data.results[i].answer.substring(0, 144) + '...'
+        //     // ).replace(/<\/?[a-zA-Z]+>/g, ''),
+        //     confidence: data.results[i].score,
+        //     id: data.results[i].id,
+        //     sourceUrl: data.results[i].sourceUrl,
+        //     answer: data.results[i].answer
+        //   };
+        //   i++;
+        // }
+        // // console.log('go to rfp/index');
+        // // res.render('rfps/index', {
+        res.render('rfps/results', {
+          title: query,
+          question: query,
+          discoveryResults: discoveryResults
+        });
+      }
     }
-  });
+  );
 });
 
 module.exports = router;
